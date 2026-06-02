@@ -1,0 +1,48 @@
+---
+title: 'v0.6.0-beta.22'
+description: '2026-06-03'
+---
+
+## Enhancements
+
+### psymoth npm packages
+
+The beta distribution now publishes the CLI as `psymoth` and the core SDK as `psymoth-core`.
+
+| Surface | New package |
+| --- | --- |
+| CLI install | `npm install -g psymoth@beta` |
+| Core root import | `psymoth-core` |
+| Channel API | `psymoth-core/channel` |
+| Task API | `psymoth-core/task` |
+| Mem API | `psymoth-core/mem` |
+
+Release scripts, `trellis upgrade`, session update hints, README badges, packed CLI dependency checks, and `.github/workflows/publish.yml` now use the new package names.
+
+### trellis-goal Codex native bridge
+
+`trellis-goal` now prepares Trellis task artifacts and hands unattended execution to Codex native goal mode with `create_goal`.
+
+- Goal Contract source: `prd.md`
+- Technical boundary source: `design.md`
+- Evidence checkpoints: `implement.md`
+- Native goal state: `create_goal`, `get_goal`, `update_goal`
+
+`implement.md` checkpoints are evidence and recovery landmarks, not a local queue or separate execution loop.
+
+## Bug Fixes
+
+### task.py goal checkpoints
+
+`task.py goal-info` now parses only `### Checkpoint N:` headings when summarizing Trellis goal progress.
+
+`task.py mark-goal --cadence` accepts `checkpoint-bounded` and `run-to-completion`; the default is now `checkpoint-bounded`.
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+trellis update
+```
+
+No migration command is required.
