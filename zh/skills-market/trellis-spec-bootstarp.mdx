@@ -37,7 +37,7 @@ Refresh .trellis/spec so it reflects the current repository structure and coding
 ## 工作原理
 
 1. 检查现有 `.trellis/spec/` 目录。
-2. 用 GitNexus、ABCoder、语言工具或直接读源码来分析仓库架构。
+2. 优先用 `code-context-search` 分析仓库架构，再结合语言工具或直接读源码验证。
 3. 按真实代码库选择 spec 边界。
 4. 用具体文件路径、示例和反模式填充或重塑 spec 文件。
 5. 验证 index 文件匹配最终 spec 集合，并确认没有模板占位内容。
@@ -50,4 +50,4 @@ Refresh .trellis/spec so it reflects the current repository structure and coding
 | `references/repository-analysis.md` | 如何检查仓库架构             |
 | `references/spec-task-planning.md`  | 如何拆分 spec 工作           |
 | `references/spec-writing.md`        | 如何写高信号 Trellis specs   |
-| `references/mcp-setup.md`           | GitNexus 和 ABCoder 设置说明 |
+| `references/code-context-search.md`  | 代码上下文搜索流程           |

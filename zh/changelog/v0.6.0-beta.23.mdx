@@ -1,0 +1,48 @@
+---
+title: 'v0.6.0-beta.23'
+description: '2026-06-06'
+---
+
+## Enhancements
+
+### Codex workflow skills
+
+Codex-managed Trellis projects 现在包含更收紧的 workflow skill set，用于 architecture review、grill gates 和 goal execution。
+
+| Surface | Change |
+| --- | --- |
+| `trellis-architecture-shaping` | 在 implementation 前增加 architecture-sensitive planning guidance |
+| `trellis-grill-me` | 把 attended grill gates 路由到真实用户决策 |
+| `trellis-grill-agents` | 支持显式授权的 unattended artifact interrogation |
+| `trellis-goal` | 收紧 Goal Contract、checkpoint 和 task-context guidance |
+
+### Human-readable task artifacts
+
+Trellis task artifacts 现在对 human-readable planning files 优先使用中文友好的表述，同时保留 machine-readable `task.json`、JSONL context 和 status metadata。
+
+### Spec bootstrap discovery
+
+`trellis-spec-bootstarp` 现在会先通过 `code-context-search` / Fast Context 定位不明确的代码库上下文，再直接读取源码。
+
+Bundled skill 中移除了 GitNexus 和 ABCoder setup reference，因为这些工具在当前项目发行版中不可用。
+
+## Bug Fixes
+
+### trellis codex launcher
+
+`trellis codex` 现在保持为 direct Codex launcher，并原样透传 args。
+
+CLI 和 templates 中移除了不稳定的 `trellis codex skills` command 以及 `codex.disabled_skills` / `codex.disabled_skill_paths` session override path。
+
+### release tag push
+
+Beta 和 RC release scripts 现在只推送当前 release tag，而不是宽泛的 tag refs。
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+trellis update
+```
+
+不需要运行 migration command。

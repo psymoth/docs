@@ -1,0 +1,48 @@
+---
+title: 'v0.6.0-beta.23'
+description: '2026-06-06'
+---
+
+## Enhancements
+
+### Codex workflow skills
+
+Codex-managed Trellis projects now ship a tighter workflow skill set for architecture review, grill gates, and goal execution.
+
+| Surface | Change |
+| --- | --- |
+| `trellis-architecture-shaping` | Adds architecture-sensitive planning guidance before implementation |
+| `trellis-grill-me` | Routes attended grill gates through real user decisions |
+| `trellis-grill-agents` | Supports explicitly authorized unattended artifact interrogation |
+| `trellis-goal` | Tightens Goal Contract, checkpoint, and task-context guidance |
+
+### Human-readable task artifacts
+
+Trellis task artifacts now prefer Chinese-friendly wording for human-readable planning files while preserving machine-readable `task.json`, JSONL context, and status metadata.
+
+### Spec bootstrap discovery
+
+`trellis-spec-bootstarp` now routes unclear codebase discovery through `code-context-search` / Fast Context before direct source reads.
+
+The GitNexus and ABCoder setup reference was removed from the bundled skill because those tools are not available in this project distribution.
+
+## Bug Fixes
+
+### trellis codex launcher
+
+`trellis codex` now stays a direct Codex launcher with passthrough args.
+
+The unstable `trellis codex skills` command and `codex.disabled_skills` / `codex.disabled_skill_paths` session override path were removed from the CLI and templates.
+
+### release tag push
+
+Beta and RC release scripts now push only the current release tag instead of broad tag refs.
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+trellis update
+```
+
+No migration command is required.
