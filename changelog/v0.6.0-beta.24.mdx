@@ -1,0 +1,20 @@
+---
+title: 'v0.6.0-beta.24'
+description: '2026-06-06'
+---
+
+## Bug Fixes
+
+### npm provenance metadata
+
+`psymoth` and `psymoth-core` now declare `https://github.com/psymoth/trellis.git` as their package repository.
+
+This matches the GitHub Actions provenance source for `psymoth/trellis`, so npm accepts CI publishes with provenance enabled.
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+```
+
+No migration command is required.
