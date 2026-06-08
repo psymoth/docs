@@ -1,0 +1,35 @@
+---
+title: 'v0.6.0-beta.25'
+description: '2026-06-09'
+---
+
+## Enhancements
+
+### Chinese Trellis Project Docs
+
+`trellis init` 生成的新项目现在默认用中文编写面向人类阅读的 Trellis 文档，同时保留 file name、command、API name、JSON key、status value、symbol 和 Trellis technical terms。
+
+| Area | Change |
+| --- | --- |
+| `AGENTS.md` | 声明协作与 Trellis 文档默认使用中文。 |
+| `.trellis/workflow.md` | 增加 human-readable language policy。 |
+| `.trellis/spec/**/index.md` | 替换旧的 English-only documentation rule。 |
+| `.trellis/tasks/00-bootstrap-guidelines/prd.md` | 用中文指导 bootstrap AI。 |
+| `.trellis/tasks/00-join-*/prd.md` | 用中文指导 joiner onboarding。 |
+
+### Codex Trellis Doc Organizer
+
+启用 Codex 的 Trellis 项目现在会获得 `.codex/skills/trellis-doc-organizer/SKILL.md`。
+
+该 skill 会原地整理现有 Trellis artifacts，让后续 agents 用更小上下文获取更准确的信息，避免 `prd.md`、`design.md`、`implement.md`、`research/*.md` 和 `.trellis/spec/**` 之间出现 stale 或 duplicated facts。
+
+它默认保留源文档，通过 `historical`、`superseded` 或 `pointer` 等状态降低过时 research 的权威性，并且不会默认新增 summary/source-map layer，除非用户明确要求。
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+trellis update
+```
+
+在启用 Codex 的项目里运行 `trellis update`，即可安装 `.codex/skills/trellis-doc-organizer/SKILL.md`。不需要运行 migration command。
