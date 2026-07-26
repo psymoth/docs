@@ -1,0 +1,65 @@
+---
+title: 'v0.6.0-beta.26'
+description: '2026-07-26'
+---
+
+## Enhancements
+
+### Codex Managed Worktree Lifecycle
+
+Codex projects now carry task and context state across native managed worktrees and subagent runs.
+
+| Identifier | Behavior |
+| --- | --- |
+| `.worktreeinclude` | Copies the managed Trellis context required by a new worktree. |
+| `SubagentStart` | Binds the active task, context, branch, and worktree metadata before agent execution. |
+| `task_binding.py` | Recovers task ownership and handoff state without relying on the original chat. |
+| `finish-work` | Applies the configured `local`, `open-pr`, or `merge-after-green` finish policy. |
+
+Context injection now also enforces configurable byte limits so large task artifacts do not overflow agent prompts.
+
+### Codex Review and Planning Consolidation
+
+Codex review and planning now use fewer agents with explicit escalation rules.
+
+| Area | Change |
+| --- | --- |
+| `.codex/agents/` | Generates only `trellis-implement`, `trellis-check`, and `trellis-research`. |
+| `trellis-check` | Absorbs the former spec, code, architecture, and merge review agents. |
+| Architecture Impact | Stays inline by default; deep triggers create separate architecture-shaping research. |
+| `trellis-grill-agents` | Reuses the same proxy-agent thread and records question taxonomy, decisions, and unresolved items. |
+
+Hash-gated migrations remove pristine copies of the four retired Codex review agents during `trellis update`.
+
+### Task Lifecycle and Goal Defaults
+
+Task state now distinguishes terminal outcomes, storage, complexity, and autonomous-work budget.
+
+| Contract | Change |
+| --- | --- |
+| Terminal outcome | `complete`, `cancel`, and `supersede` no longer imply immediate physical archive. |
+| Physical archive | Runs as a separate operation after finish-policy checks. |
+| `complexity` | Accepts explicit `auto`, `lightweight`, or `complex`; failed starts preserve the active-task pointer. |
+| Goal Contract | Uses the validator-aligned skeleton and defaults native Goal Mode to `token_budget: 20000000`. |
+
+## Bug Fixes
+
+### CLI State and I/O Hardening
+
+CLI writes, ownership checks, and channel process output now fail explicitly and preserve recoverable state.
+
+| Area | Change |
+| --- | --- |
+| Atomic writes | Uses durable temporary-file replacement for managed state and templates. |
+| `trellis update` / `uninstall` | Adds managed-block, pristine-file, rename-ownership, and journal-collision guards. |
+| Channel paths | Rejects unsafe names before list, remove, worker, or store operations. |
+| Supervisor stdout | Adds queue backpressure, ordered drain, and shutdown flushing. |
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+trellis update
+```
+
+No `--migrate` command is required. Hash-matched legacy Codex review agents and the old Codex-only doc-organizer copy are removed automatically; modified copies are retained.

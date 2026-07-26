@@ -1,0 +1,65 @@
+---
+title: 'v0.6.0-beta.26'
+description: '2026-07-26'
+---
+
+## Enhancements
+
+### Codex Managed Worktree Lifecycle
+
+Codex 项目现在会在 native managed worktree 和 subagent 运行之间传递 task 与 context state。
+
+| Identifier | Behavior |
+| --- | --- |
+| `.worktreeinclude` | 复制新 worktree 所需的 managed Trellis context。 |
+| `SubagentStart` | 在 agent 执行前绑定 active task、context、branch 和 worktree metadata。 |
+| `task_binding.py` | 不依赖原始 chat，恢复 task ownership 与 handoff state。 |
+| `finish-work` | 应用已配置的 `local`、`open-pr` 或 `merge-after-green` finish policy。 |
+
+Context injection 现在也会执行可配置的 byte limit，避免大型 task artifacts 超出 agent prompt 容量。
+
+### Codex Review and Planning Consolidation
+
+Codex review 与 planning 现在使用更少的 agents，并采用明确的 escalation rules。
+
+| Area | Change |
+| --- | --- |
+| `.codex/agents/` | 只生成 `trellis-implement`、`trellis-check` 和 `trellis-research`。 |
+| `trellis-check` | 吸收原有 spec、code、architecture 和 merge review agents。 |
+| Architecture Impact | 默认内联；只有 deep trigger 才创建独立 architecture-shaping research。 |
+| `trellis-grill-agents` | 复用同一个 proxy-agent thread，并记录 question taxonomy、decisions 和 unresolved items。 |
+
+`trellis update` 会通过 hash-gated migrations 清理四个已退役 Codex review agents 的 pristine copies。
+
+### Task Lifecycle and Goal Defaults
+
+Task state 现在会区分 terminal outcome、storage、complexity 和 autonomous-work budget。
+
+| Contract | Change |
+| --- | --- |
+| Terminal outcome | `complete`、`cancel` 和 `supersede` 不再隐含立即执行 physical archive。 |
+| Physical archive | 在 finish-policy checks 后作为独立操作执行。 |
+| `complexity` | 显式接受 `auto`、`lightweight` 或 `complex`；start 失败时保留 active-task pointer。 |
+| Goal Contract | 使用与 validator 对齐的 skeleton，并将 native Goal Mode 默认值设为 `token_budget: 20000000`。 |
+
+## Bug Fixes
+
+### CLI State and I/O Hardening
+
+CLI writes、ownership checks 和 channel process output 现在会显式暴露失败并保留可恢复状态。
+
+| Area | Change |
+| --- | --- |
+| Atomic writes | 对 managed state 与 templates 使用 durable temporary-file replacement。 |
+| `trellis update` / `uninstall` | 增加 managed-block、pristine-file、rename-ownership 和 journal-collision guards。 |
+| Channel paths | 在 list、remove、worker 或 store 操作前拒绝 unsafe names。 |
+| Supervisor stdout | 增加 queue backpressure、ordered drain 和 shutdown flushing。 |
+
+## Upgrade
+
+```bash
+npm install -g psymoth@beta
+trellis update
+```
+
+不需要运行 `--migrate` command。Hash-matched legacy Codex review agents 与旧的 Codex-only doc-organizer copy 会自动清理；modified copies 会被保留。
